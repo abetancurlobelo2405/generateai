@@ -1,3 +1,6 @@
+/**
+
+
 import {
   Document,
   Page,
@@ -26,9 +29,9 @@ const styles = StyleSheet.create({
 function BasicDocument({ children }) {
   return (
     <PDFViewer style={styles.viewer}>
-      {/* Start of the document*/}
+      {/* Start of the document
       <Document>
-        {/*render a single page*/}
+        {/*render a single page
         <Page size="A4" style={styles.page}>
           <View style={styles.section}>
             <Text>{children}</Text>
@@ -39,6 +42,7 @@ function BasicDocument({ children }) {
         </Page>
       </Document>
     </PDFViewer>
-  );
-}
-export default BasicDocument;
+    );
+    */
+//}
+//export default BasicDocument;
