@@ -1,0 +1,15 @@
+.title {
+    color: red;
+}
+
+.showPlans{
+    position: absolute;
+    background-color: aqua;
+    height: 200px;
+    width: 200px;
+}
+
+.hidePlans{
+    position: absolute;
+    visibility: hidden;
+}
