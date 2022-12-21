@@ -13,7 +13,8 @@ const UserProfile = ({ profile }) => {
         <p>{profile.username}</p>
         {profile.histories.map((history, index) => (
           <div key={index}>
-            <p>{history.text}</p>
+            <p>&quot;{history.rawText}&quot;</p>
+            <p>{history.generatedText}</p>
           </div>
         ))}
       </div>

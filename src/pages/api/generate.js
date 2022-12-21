@@ -48,6 +48,8 @@ export default async function generator(req, res) {
         username: "Anonymous",
       });
       user.histories.push({
+        rawText: req.body.input,
+        generatedText: completion.data.choices[0].text,
         text: completion.data.choices[0].text,
         author: "Anonymous",
         likes: 0,
