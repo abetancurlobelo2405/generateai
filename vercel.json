@@ -2,7 +2,7 @@
   "routes": [
     {
       "src": "/api/xd",
-      "dest": "src/pages/api/xd.py"  
+      "dest": "/src/pages/api/xd.py"  
     }
   ]
 }
