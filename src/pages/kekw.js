@@ -14,5 +14,5 @@ export default function MyComponent() {
     getData();
   }, []);
 
-  return <div>{data ? <p>{data.hello}</p> : <p>Loading...</p>}</div>;
+  return <div>{data ? <p>{data.message}</p> : <p>Loading...</p>}</div>;
 }
