@@ -11,7 +11,7 @@ let client = new paypal.core.PayPalHttpClient(environment);
 
 export default async function handler(req, res) {
   const { body } = req;
-  console.log(body);
+
   if (req.method === "POST") {
     let response = undefined;
     try {

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSession, signIn, signOut, getSession } from "next-auth/react";
+import style from "./index.module.css";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState({});
+  const router = useRouter();
 
   useEffect(() => {
     if (session) {
@@ -31,24 +34,36 @@ const Header = () => {
   };
   return (
     <>
-      {session ? (
-        <>
-          <Link href={"/user/profile"}>
-            <p>{user?.username}</p>
-          </Link>
-          <button onClick={handleSignOut}>Sign out</button>
-        </>
-      ) : (
-        <Link href={"/user/login"}>Login</Link>
-      )}
-      <div>
-        <Link href={"/xd"}>test</Link>
+      <div className={style.navbar}>
+        {session ? (
+          <>
+            <Link href={"/user/profile"}>
+              <p>{user?.username}</p>
+            </Link>
+            <button onClick={handleSignOut}>Sign out</button>
+          </>
+        ) : (
+          <div className={style.login}>
+            <Link href={"/user/login"}>Login</Link>
+          </div>
+        )}
+        <div className={style.home}>
+          <Link href={"/"}>GENERATOR AI</Link>
+        </div>
       </div>
-      <div>
-        <Link href={"/user/generate"}>Generator</Link>
-      </div>
-      <div>
-        <Link href={"/"}>HOME</Link>
+
+      <div
+        className={
+          router.pathname === "/user/generate"
+            ? style.disableButton
+            : style.generatorButton
+        }
+      >
+        <Link href={"/user/generate"}>
+          <button className={style.rainbowButton}>
+            ¡GENERATE YOU OWN HISTORY NOW!
+          </button>
+        </Link>
       </div>
     </>
   );

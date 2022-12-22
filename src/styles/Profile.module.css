@@ -1,0 +1,26 @@
+
+.posts {
+    display: flex;
+    overflow-y: scroll;
+    height: 600px;
+    width: 800px;
+    padding: 15px;
+    margin: auto;
+    border: 1px solid #000000;
+    border-radius: 4px 0px 0px 4px;
+    flex-direction: column;
+  }
+
+.postText{
+    border: 1px solid #000000;
+    box-shadow: 2px 2px 2px #a8a7a7;
+    margin: 10px;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+@media (max-width: 800px) {
+    .postsGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }

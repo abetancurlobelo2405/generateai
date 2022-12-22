@@ -37,25 +37,35 @@ export default async function generator(req, res) {
         rawText: req.body.input,
         generatedText: completion.data.choices[0].text,
         author: user.username || user.name || user.email,
-        likes: 0,
         isPrivate: false,
       });
       await user.save();
     }
 
     if (anonymous) {
-      const user = await Profile.create({
-        username: "Anonymous",
-      });
-      user.histories.push({
-        rawText: req.body.input,
-        generatedText: completion.data.choices[0].text,
-        text: completion.data.choices[0].text,
-        author: "Anonymous",
-        likes: 0,
-        isPrivate: false,
-      });
-      await user.save();
+      const anonymousUser = await Profile.find({});
+
+      if (anonymousUser.length === 0) {
+        console.log("entro o no?");
+        const newAnonymousUser = await Profile.create({
+          username: "Anonymous",
+        });
+        newAnonymousUser.histories.push({
+          rawText: req.body.input,
+          generatedText: completion.data.choices[0].text,
+          author: "Anonymous",
+          isPrivate: false,
+        });
+        await newAnonymousUser.save();
+      } else {
+        anonymousUser.histories.push({
+          rawText: req.body.input,
+          generatedText: completion.data.choices[0].text,
+          author: "Anonymous",
+          isPrivate: false,
+        });
+        await anonymousUser.save();
+      }
     }
   } catch (error) {
     console.log(error);
