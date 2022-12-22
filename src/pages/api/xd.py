@@ -8,7 +8,3 @@ class MyServer(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(b'{"hello": "world"}')
         return
-
-server = HTTPServer(('', 8000), MyServer)
-server.serve_forever()
-print("Maybe the server is running.")
