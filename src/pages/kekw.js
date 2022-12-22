@@ -6,7 +6,9 @@ export default function MyComponent() {
   useEffect(() => {
     async function getData() {
       const res = await fetch("/api/xd");
+      console.log(res);
       const data = await res.json();
+      console.log(data);
       setData(data);
     }
     getData();
