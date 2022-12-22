@@ -2,19 +2,26 @@ import React, { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Profile from "../../models/Profile";
+import styles from "../../styles/Profile.module.css";
+import ModalPosts from "../../components/ModalPosts";
 
 const UserProfile = ({ profile }) => {
-  console.log(profile);
   return (
     <>
       <div>Profile</div>
 
-      <div>
-        <p>{profile.username}</p>
+      <p>{profile.username}</p>
+
+      <div className={styles.posts}>
         {profile.histories.map((history, index) => (
-          <div key={index}>
-            <p>&quot;{history.rawText}&quot;</p>
-            <p>{history.generatedText}</p>
+          <div key={index} className={styles.postText}>
+            <>
+              <p>&quot;{history.rawText}&quot;</p>
+              <p>{history.generatedText}</p>
+              <ModalPosts author={history.author} rawText={history.rawText}>
+                {history.generatedText}
+              </ModalPosts>
+            </>
           </div>
         ))}
       </div>

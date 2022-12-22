@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import PayPalComponent from "../../components/PaypalComponent";
-import styles from "../../styles/Login.module.css";
+import styles from "../../styles/Generator.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Plans from "../../components/Plans";
@@ -87,14 +87,15 @@ export default function Generator({ user }) {
                 </button>
               </PayPalComponent>
             </Plans>
-            <img src="/dog.png" className={styles.icon} />
+
             <h3>Name my p`ppet</h3>
 
             <form onSubmit={onSubmit}>
-              <input
+              <textarea
                 type="text"
                 name="input"
                 placeholder="Enter an input"
+                maxLength={200}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
@@ -109,15 +110,25 @@ export default function Generator({ user }) {
           </>
         ) : (
           <>
-            <Link href={"/user/login"}>Na, Log me In!</Link>
-            <Link
-              href={{
-                pathname: "/user/generate",
-                query: { anonymous: true },
-              }}
-            >
-              I want to be anonymous!
-            </Link>
+            <div className={styles.credentialsContainer}>
+              <Link href={"/user/login"}>
+                <div className={styles.login}>
+                  ¡I want to login!
+                  <img className={styles.imageLogin} src="/login-key.jpg"></img>
+                </div>
+              </Link>
+              <Link
+                href={{
+                  pathname: "/user/generate",
+                  query: { anonymous: true },
+                }}
+              >
+                <div className={styles.anonymous}>
+                  ¡I want to do it anonymously!
+                  <span className={styles.anonymousInterrogation}>?</span>
+                </div>
+              </Link>
+            </div>
           </>
         )}
       </main>

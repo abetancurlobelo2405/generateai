@@ -40,8 +40,6 @@ export default function PayPalComponent({
                   }}
                   onCancel={(data) => console.log("compra cancelada")}
                   onApprove={(data, actions) => {
-                    console.log("compra aprobada", data);
-                    console.log("acciones", actions);
                     actions.order.capture();
                     ValueHandler(total);
                     PayPalHandler(true);

@@ -1,0 +1,83 @@
+.navbar{
+  position: relative;
+    display: flex;
+    height: 35px;
+    color: #ffffff;
+    font-weight: 700;
+    background-color: #000000;
+    flex-direction: row-reverse;
+}
+
+.home{
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.home:hover{
+  transform: scale(1.04);
+}
+
+.login{
+  display: flex;
+  position: absolute;
+  align-items: center;
+  height: 100%;
+  margin-right: 120px;
+
+  font-size: 15px;
+  background-color: #48b9df;
+  border-radius: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.generatorButton{
+  position: relative;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    background-color: #000000;
+
+    position: sticky;
+    margin: auto;
+    top: 0;
+}
+
+.disableButton{
+    visibility: hidden;
+    position: absolute;
+}
+
+
+/* Button CSS */
+
+.rainbowButton {
+    height:47px;
+    background-image: linear-gradient(90deg, #48b9df 0%, #a14eff 49%, #a14eff 80%, #48b9df 100%);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-transform:uppercase;
+    font-size:15px;
+    font-weight:700;
+    color: #ffffff;
+    margin: 5px;
+    animation:slidebg 9s linear infinite;
+  }
+
+ .rainbowButton:hover{
+  cursor: pointer;
+  transform: scale(1.01);
+ } 
+  
+  @keyframes slidebg {
+    to {
+      background-position:20vw;
+      
+    }
+  }
+  
