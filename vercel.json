@@ -1,8 +1,0 @@
-{
-  "routes": [
-    {
-      "src": "/api/xd",
-      "dest": "/src/pages/api/xd.py"  
-    }
-  ]
-}

@@ -16,10 +16,22 @@ const phrases = [
 export default function Home({ posts }) {
   const [done, setDone] = useState(1);
 
-  console.log(done);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    async function getData() {
+      const res = await fetch("/api/aigenerator"); // Make a fetch request to the serverless function
+      console.log(res);
+      const data = await res.json(); // Parse the response as JSON
+      console.log(data);
+      setData(data);
+    }
+    getData();
+  }, []);
 
   return (
     <>
+      <h1>XD - {data}</h1>
       <main className={styles.main}>
         <div className={styles.header}>
           <h1 className={styles.title}>
