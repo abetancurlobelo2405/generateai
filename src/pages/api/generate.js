@@ -11,6 +11,7 @@ export default async function generator(req, res) {
   const anonymous = req.body.isAnonymous;
   const plans = req.body.plans;
   let completion;
+  let xd;
   if (plans === "basic") {
     completion = await openai.createCompletion({
       model: "text-davinci-003",
@@ -26,6 +27,11 @@ export default async function generator(req, res) {
       prompt: req.body.input,
       max_tokens: 3500,
       temperature: 1,
+    });
+    xd = await openai.createImage({
+      prompt: "a white siamese cat",
+      n: 1,
+      size: "512x512",
     });
   }
 
@@ -70,7 +76,10 @@ export default async function generator(req, res) {
   } catch (error) {
     console.log(error);
   }
-  res.status(200).json({ result: completion.data.choices[0].text });
+  res.status(200).json({
+    result: completion.data.choices[0].text,
+    img: xd.data.data[0].url,
+  });
 }
 
 function generatePrompt(animal) {

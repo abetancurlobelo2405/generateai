@@ -34,7 +34,9 @@ export default function Generator({ user }) {
       },
       body: JSON.stringify({ input, isAnonymous: user ? false : true, plans }),
     });
+    console.log(response);
     const data = await response.json();
+    console.log(data);
     setResult(data.result);
     setLoader(false);
     setInput("");
