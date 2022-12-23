@@ -3,8 +3,8 @@ import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import GitHubProvider from "next-auth/providers/github";
-import clientPromise, { connectDB } from "../../src/lib/mongoDBconnect";
-import Profile from "../../src/models/Profile";
+import clientPromise, { connectDB } from "../../../lib/mongoDBconnect";
+import Profile from "../../../models/Profile";
 import { signIn } from "next-auth/react";
 
 connectDB();

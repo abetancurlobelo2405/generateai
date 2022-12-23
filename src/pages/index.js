@@ -18,17 +18,6 @@ export default function Home({ posts }) {
 
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    async function getData() {
-      const res = await fetch("/api/aigenerator"); // Make a fetch request to the serverless function
-      console.log(res);
-      const data = await res.json(); // Parse the response as JSON
-      console.log(data);
-      setData(data);
-    }
-    getData();
-  }, []);
-
   return (
     <>
       <h1>XD - {data}</h1>
