@@ -36,6 +36,7 @@ export default NextAuth({
           await Profile.create({
             username: user.name || user.username,
             email: user.email,
+            isAnonymous: false,
           });
         }
       } catch (error) {

@@ -15,6 +15,9 @@ const ProfileSchema = new Schema({
       isPrivate: Boolean,
     },
   ],
+  isAnonymous: {
+    type: Boolean,
+  },
 });
 
 const Profile = models.Profile || model("Profile", ProfileSchema);

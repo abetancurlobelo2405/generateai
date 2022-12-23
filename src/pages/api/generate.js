@@ -11,7 +11,6 @@ export default async function generator(req, res) {
   const anonymous = req.body.isAnonymous;
   const plans = req.body.plans;
   let completion;
-  let xd;
   if (plans === "basic") {
     completion = await openai.createCompletion({
       model: "text-davinci-003",
@@ -27,11 +26,6 @@ export default async function generator(req, res) {
       prompt: req.body.input,
       max_tokens: 3500,
       temperature: 1,
-    });
-    xd = await openai.createImage({
-      prompt: "a white siamese cat",
-      n: 1,
-      size: "512x512",
     });
   }
 
@@ -49,12 +43,13 @@ export default async function generator(req, res) {
     }
 
     if (anonymous) {
-      const anonymousUser = await Profile.find({});
-
+      const anonymousUser = await Profile.find({ isAnonymous: true });
+      console.log(anonymousUser);
       if (anonymousUser.length === 0) {
         console.log("entro o no?");
         const newAnonymousUser = await Profile.create({
           username: "Anonymous",
+          isAnonymous: true,
         });
         newAnonymousUser.histories.push({
           rawText: req.body.input,
@@ -70,6 +65,7 @@ export default async function generator(req, res) {
           author: "Anonymous",
           isPrivate: false,
         });
+        console.log("ya pusheo");
         await anonymousUser.save();
       }
     }
@@ -78,7 +74,6 @@ export default async function generator(req, res) {
   }
   res.status(200).json({
     result: completion.data.choices[0].text,
-    img: xd.data.data[0].url,
   });
 }
 
