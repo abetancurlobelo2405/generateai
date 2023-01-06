@@ -1,49 +1,60 @@
 .navbar{
   position: relative;
-    display: flex;
-    height: 35px;
-    color: #ffffff;
-    font-weight: 700;
-    background-color: #000000;
-    flex-direction: row-reverse;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  color: #ffffff;
+  font-weight: 700;
+  background-color: #000000;
+}
+
+.navbarMenu{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 30px;
+  flex-direction: row;
+}
+
+.FAQ{
+  cursor: pointer;
 }
 
 .home{
-  display: flex;
   text-align: center;
   align-items: center;
+  margin: 10px;
   justify-content: center;
-  width: 100%;
 }
 
 .home:hover{
   transform: scale(1.04);
 }
 
-.login{
-  display: flex;
-  position: absolute;
-  align-items: center;
-  height: 100%;
-  margin-right: 120px;
 
+.login{
+  align-items: center;
   font-size: 15px;
-  background-color: #48b9df;
   border-radius: 4px;
-  padding-left: 10px;
-  padding-right: 10px;
+  cursor: pointer;
+}
+
+.signout{
+  border: none;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
 .generatorButton{
-  position: relative;
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    background-color: #000000;
-
-    position: sticky;
-    margin: auto;
-    top: 0;
+  display: flex;
+  z-index: 9999999;
+  justify-content: center;
+  background-color: #000000;
+  position: sticky;
+  margin: auto;
+  top: 0;
 }
 
 .disableButton{

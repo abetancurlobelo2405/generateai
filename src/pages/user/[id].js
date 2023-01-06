@@ -1,31 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Profile from "../../models/Profile";
 import styles from "../../styles/Profile.module.css";
 import ModalPosts from "../../components/ModalPosts";
+import User from "../../models/User";
 
 const UserProfile = ({ profile }) => {
+  console.log(profile);
   return (
-    <>
-      <div>Profile</div>
+    <div className={styles.profile}>
+      <p className={styles.profileUsername}>{profile?.username}</p>
 
-      <p>{profile.username}</p>
-
-      <div className={styles.posts}>
-        {profile.histories.map((history, index) => (
-          <div key={index} className={styles.postText}>
-            <>
-              <p>&quot;{history.rawText}&quot;</p>
-              <p>{history.generatedText}</p>
-              <ModalPosts author={history.author} rawText={history.rawText}>
-                {history.generatedText}
-              </ModalPosts>
-            </>
-          </div>
-        ))}
+      <div>
+        {profile.posts &&
+          profile.posts.map((history, index) => (
+            <div key={index} className={styles.postText}>
+              <>
+                <p>&quot;{history.rawText}&quot;</p>
+                <p>{history.generatedText}</p>
+                <div className={styles.imagesContainer}>
+                  {history.generatedImages.map((image) => (
+                    <>
+                      <img className={styles.individualImage} src={image}></img>
+                    </>
+                  ))}
+                </div>
+                <ModalPosts
+                  author={history.author}
+                  rawText={history.rawText}
+                  images={history.generatedImages}
+                >
+                  {history.generatedText}
+                </ModalPosts>
+              </>
+            </div>
+          ))}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -34,15 +45,16 @@ export default UserProfile;
 export async function getServerSideProps({ req, res, query: { id } }) {
   const currentUser = await getSession({ req });
   let user;
+
   if (id === "profile") {
     const userByEmail = JSON.stringify(
-      await Profile.findOne({
+      await User.findOne({
         email: currentUser?.user?.email,
-      })
+      }).populate("posts")
     );
     user = userByEmail;
   } else {
-    const userById = JSON.stringify(await Profile.findById(id));
+    const userById = JSON.stringify(await User.findById(id).populate("posts"));
     user = userById;
   }
 

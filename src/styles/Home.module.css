@@ -9,6 +9,11 @@
   margin: auto;
 }
 
+.titleContainer{
+  position: relative;
+  margin-top: 70px;
+}
+
 .title{
   display: flex;
   align-items: center;
@@ -30,13 +35,12 @@
 
 .bannerContainers{
   width: 100%;
-  height: 100%;
+  height: 500px;
   display: flex;
   flex-direction: row;
 }
 
 .bannerHeader{
-  background-color: rgb(225, 238, 252);
   font-weight: 500;
   border-radius: 3px 3px 0px 0px;
   border-bottom: 1px solid #c2c2c2;
@@ -45,14 +49,12 @@
 .banner1{
   display: flex;
   flex-direction: column;
-  background: rgb(255,101,168);
-background: linear-gradient(0deg, #f4eaff 0%, rgb(225, 238, 252) 30%);
   box-shadow: 2px 2px 2px #8a8a8a;
   border-radius: 3px 3px 3px 3px;
   text-align: center;
   padding: 15px;
   width: 50%;
-  height: 100%;
+  height: 350px;
   margin: 3px;
 }
 
@@ -60,13 +62,11 @@ background: linear-gradient(0deg, #f4eaff 0%, rgb(225, 238, 252) 30%);
   display: flex;
   text-align: center;
   flex-direction: column;
-  background: rgb(255,101,168);
-  background: linear-gradient(0deg, #f4eaff 0%, rgb(225, 238, 252) 30%);
   padding: 15px;
   box-shadow: 2px 2px 2px #8a8a8a;
   border-radius: 3px 3px 3px 3px;
   width: 50%;
-  height: 100%;
+  height: 350px;
   margin: 3px;
 }
 
@@ -100,25 +100,19 @@ background: linear-gradient(0deg, #f4eaff 0%, rgb(225, 238, 252) 30%);
   margin-top: 2px;
 }
 
-/* CARD CSS */
-.historyContainer{
-  display: flex;
-  flex-direction: column;
-  margin: 5px;
-  background-color: #ffffff;
-  border-radius: 5px;
-  box-shadow: 1px 1px 4px #a8a8a8;
-  padding: 15px;
-  height: 289px;
+.mainWrapper{
+  background: rgb(159,133,255);
+  background: linear-gradient(90deg, rgba(159,133,255,1) 0%, rgba(140,208,255,1) 69%);
+  margin-top: 80px;
 }
 
+/* CARD CSS */
 .mainContainer{
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 20px;
-  position: relative;
+  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  grid-template-rows: 350px;
+  margin: 10px;
   border-radius: 5px;
-  margin: 5px;
   background-color: #ffff;
   justify-content: center;
 }
@@ -130,20 +124,109 @@ background: linear-gradient(0deg, #f4eaff 0%, rgb(225, 238, 252) 30%);
   font-size: 15px;
 }
 
+.card{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 4px 4px 4px 4px;
+  border: solid 1px #000000;
+  margin: 10px;
+}
 
+.cardHeader{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
+  font-size: 12px;
+  background-color: #000000d3;
+  border-radius: 2px 2px 0px 0px;
+  height: 40px;
+  width: 100%;
+  font-weight: 600;
+  color: #ffff;
+}
 
-.box {
-  width: 100px;
-  height: 100px;
+.textBox {
+  height: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
   word-wrap: break-word;
-  border: 1px solid gray;
+  border: 1px solid #dadada;
   border-radius: 4px;
   padding: 10px;
+  margin: 15px;
 }
 
+.rawTextBox{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+  height: 50%;
+  padding: 5px;
+  font-size: 13px;
+}
+
+.generatedImages{
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.imageContainer{
+  display: flex;
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #dadada;
+  border-radius: 5px;
+  justify-content: space-around;
+  bottom: 0;
+  top: 1;
+  left: 1;
+  right: 1;
+  width: 295px;
+  margin: 16px;
+}
+
+.modal{
+  position: absolute;
+  left: 0;
+  right: 1;
+
+}
+
+
+@media (max-width: 1180px) {
+
+  .title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    width: 100%;
+  }
+
+  .titleContainer{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    white-space: pre-wrap;
+  }
+
+  .bannerContainers{
+    display: none;
+  }
+}
 
 
 

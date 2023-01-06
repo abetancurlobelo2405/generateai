@@ -13,13 +13,17 @@ const Login = () => {
       <div className={styles.loginContainer}>
         <h1>LOGIN</h1>
         <button className={styles.google} name="google" onClick={handleSignIn}>
-          Google
+          GOOGLE
         </button>
-        <button name="facebook" onClick={handleSignIn}>
-          Facebook
+        <button
+          className={styles.facebook}
+          name="facebook"
+          onClick={handleSignIn}
+        >
+          FACEBOOK
         </button>
-        <button name="github" onClick={handleSignIn}>
-          Github
+        <button className={styles.github} name="github" onClick={handleSignIn}>
+          GITHUB
         </button>
       </div>
     </div>

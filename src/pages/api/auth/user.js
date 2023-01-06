@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/react";
 import { connectDB } from "../../../lib/mongoDBconnect";
-import Profile from "../../../models/Profile";
+import User from "../../../models/User";
 connectDB();
 export default async function UserData(req, res) {
   const { method, body, cookies, headers } = req;
@@ -8,7 +8,7 @@ export default async function UserData(req, res) {
   switch (method) {
     case "GET": {
       try {
-        const user = await Profile.findOne({ email: session?.user.email });
+        const user = await User.findOne({ email: session?.user.email });
         res.status(200).json(user);
       } catch (error) {
         console.log(error);

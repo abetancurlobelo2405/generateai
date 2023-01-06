@@ -8,7 +8,7 @@ export default function PayPalComponent({
   description,
   show,
 }) {
-  const { PayPalHandler, ValueHandler } = useContext(PayPalContext);
+  const { ConfirmationHandler, ValueHandler } = useContext(PayPalContext);
   return (
     <div>
       <>
@@ -39,10 +39,25 @@ export default function PayPalComponent({
                     }
                   }}
                   onCancel={(data) => console.log("compra cancelada")}
-                  onApprove={(data, actions) => {
-                    actions.order.capture();
-                    ValueHandler(total);
-                    PayPalHandler(true);
+                  onApprove={async (data, actions) => {
+                    try {
+                      const value = await actions.order.capture();
+                      ConfirmationHandler(true);
+                      ValueHandler(
+                        parseFloat(value.purchase_units[0].amount.value)
+                      );
+                    } catch (error) {
+                      if (
+                        error.message ===
+                        "Can not send postrobot_method. Target window is closed"
+                      ) {
+                        console.log(
+                          "The PayPal window was closed before the payment was completed"
+                        );
+                      } else {
+                        console.error(error);
+                      }
+                    }
                   }}
                   style={{ layout: "vertical" }}
                 />

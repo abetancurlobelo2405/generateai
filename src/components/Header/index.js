@@ -35,31 +35,38 @@ const Header = () => {
   return (
     <>
       <div className={style.navbar}>
-        {session ? (
-          <>
-            <Link href={"/user/profile"}>
-              <p>{user?.username}</p>
-            </Link>
-            <button onClick={handleSignOut}>Sign out</button>
-          </>
-        ) : (
-          <div className={style.login}>
-            <Link href={"/user/login"}>Login</Link>
-          </div>
-        )}
         <div className={style.home}>
           <Link href={"/"}>GENERATOR AI</Link>
+        </div>
+        <div className={style.navbarMenu}>
+          {session ? (
+            <>
+              <div className={style.signout} onClick={handleSignOut}>
+                LOGOUT
+              </div>
+              <Link href={"/user/profile"}>
+                <p>{user?.username}</p>
+              </Link>
+            </>
+          ) : (
+            <div className={style.login}>
+              <Link href={"/user/login"}>Login</Link>
+            </div>
+          )}
+          <div className={style.FAQ}>
+            <Link href={"/faq"}>FAQ</Link>
+          </div>
         </div>
       </div>
 
       <div
         className={
-          router.pathname === "/user/generate"
+          router.pathname === "/user/payment"
             ? style.disableButton
             : style.generatorButton
         }
       >
-        <Link href={"/user/generate"}>
+        <Link href={"/user/payment"}>
           <button className={style.rainbowButton}>
             ¡GENERATE YOU OWN HISTORY NOW!
           </button>

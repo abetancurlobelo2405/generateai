@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import GitHubProvider from "next-auth/providers/github";
 import clientPromise, { connectDB } from "../../../lib/mongoDBconnect";
-import Profile from "../../../models/Profile";
+import User from "../../../models/User";
 import { signIn } from "next-auth/react";
 
 connectDB();
@@ -31,10 +31,10 @@ export default NextAuth({
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       try {
-        const userProfile = await Profile.findOne({ email: user.email });
+        const userProfile = await User.findOne({ email: user.email });
         if (userProfile?.email !== user.email) {
-          await Profile.create({
-            username: user.name || user.username,
+          await User.create({
+            username: user.name || user.username || user.email,
             email: user.email,
             isAnonymous: false,
           });

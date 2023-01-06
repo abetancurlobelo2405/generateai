@@ -6,7 +6,7 @@ const PayPalProvider = ({ children }) => {
   const [isPaid, setIsPaid] = useState(false);
   const [value, setValue] = useState(0);
 
-  const PayPalHandler = (isPayment) => {
+  const ConfirmationHandler = (isPayment) => {
     if (isPayment) {
       setIsPaid(true);
     } else {
@@ -18,7 +18,7 @@ const PayPalProvider = ({ children }) => {
     setValue(value);
   };
 
-  const data = { isPaid, value, PayPalHandler, ValueHandler };
+  const data = { isPaid, value, ConfirmationHandler, ValueHandler };
 
   return (
     <PayPalContext.Provider value={data}>{children}</PayPalContext.Provider>

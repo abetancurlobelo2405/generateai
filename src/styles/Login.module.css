@@ -69,22 +69,58 @@
   margin: auto;
   display: flex;
   width: 80vw;
-  height: 100vh;
-  background-color: #10a37f;
+  height: 80vh;
 }
 
-  .loginContainer{
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    width: 600px;
-    height: 400px;
-    background-color: red;
-  }
+.loginContainer{
+  margin: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 600px;
+  height: 300px;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 2px #b8b8b8;
+  border: 1px solid #cfcfcf;
+  background-color: #ffffff;
+}
 
-  .google{
-    border: none;
-    padding: 10px;
-    margin: 10px;
-  }
+.google{
+  border: none;
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+  background-color: #F4B400;
+  border-radius: 3px;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.facebook{
+  border: none;
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+  background-color: #4285F4;
+  border-radius: 3px;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.github{
+  border: none;
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+  background-color: #000000;
+  border-radius: 3px;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+
  

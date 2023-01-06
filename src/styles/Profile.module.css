@@ -1,15 +1,27 @@
 
-.posts {
-    display: flex;
-    overflow-y: scroll;
-    height: 600px;
-    width: 800px;
-    padding: 15px;
-    margin: auto;
-    border: 1px solid #000000;
-    border-radius: 4px 0px 0px 4px;
-    flex-direction: column;
-  }
+.profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileUsername{
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.imagesContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.individualImage{
+  width: 100px;
+  margin: 5px;
+}
 
 .postText{
     border: 1px solid #000000;
@@ -20,7 +32,11 @@
 }
 
 @media (max-width: 800px) {
-    .postsGrid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .postText{
+    width: 400px;
+}
+
+.individualImage{
+  width: 80px;
+}
   }

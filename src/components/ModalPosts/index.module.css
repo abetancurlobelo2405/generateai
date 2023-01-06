@@ -1,24 +1,16 @@
-
 .expandButton {
+  color: #303030;
   background-color: #ffffff;
-  border: solid 1px #abe0ff;
-  color: #363636;
-  font-weight: 700;
-  padding: 9px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.6s ease;
+  border: 1px solid #d3d3d3;
+  border-radius: 2px;
+  height: 35px;
+  font-size: 30px;
+  margin: 2px;
 }
 
 .expandButton:hover {
-  background-color: #abe0ff;
-  color: #000000;
-  transform: scale(1.01);
+  cursor: pointer;
+  transform: scale(1.5);
 }
 
 .overlay {
@@ -32,18 +24,29 @@
 }
 
 .modal {
-    margin-top: 30px;
-    position: fixed;
-    padding: 60px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
-    height: 80%;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
+  margin-top: 30px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 80%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  }
+
+.modalImagesContainer{
+  display: flex;
+  justify-content: space-between;
+  background-color: red;
+  margin: 10px;
+  }
+
+  .modalImage{
+    width: 130px;
+    margin: 5px;
+    border-radius: 6px;
   }
 
 .closeButton{
@@ -54,11 +57,12 @@
   bottom: 1;
   border: none;
   outline: none;
-  margin: 30px;
-  padding: 20px;
-  background-color: #abe0ff;
+  margin: 10px;
+  padding: 15px;
+  background-color: #000000;
+  color: #d3d3d3;
   font-weight: 700;
-  border-radius: 20%;
+  border-radius: 4px;
 }
 
 .closeButton:hover{
@@ -66,16 +70,48 @@
 }
 
 .rawTextContainer{
-  background-color: #edf8ff;
-  border-radius: 10px;
+  border: 1px solid #c4c4c4;
+  border-radius: 2px;
   padding: 10px;
+  margin: 10px;
+  margin-top: 40px;
 }
 
-  .textContainer{
-    height: 350px;
-    overflow-y: scroll;
+.modalContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalInfo{
+  display: flex;
+  flex-direction: column;
+}
+
+.modalImageContainer{
+  margin: 20px;
+}
+
+.textContainer{
+  margin: 10px;
+  padding: 10px;
+  overflow-y: scroll;
+  border: 1px solid #d4d4d4;
+}
+
+  .text{
     white-space: pre-line;
-  }
+    height: 370px;
+}
+
+
+.authorContainer{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-weight: 700;
+}
+
 
   .textContainer::-webkit-scrollbar {
     width: 10px; /* Set the width of the scrollbar */
@@ -90,3 +126,45 @@
   .textContainer::-webkit-scrollbar-button {
     display: none; /* Hide the buttons */
   }
+
+
+@media (max-width: 1050px) {
+  .modal {
+    width: 80%;
+  }
+}
+
+@media (max-width: 500px) {
+  .modal {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    border-radius: 0px;
+  }
+
+  .modalImageContainer{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);  
+    margin: 10px;
+  }
+
+  .modalInfo{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modalContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .textContainer{
+    padding: 10px;
+    overflow-y: scroll;
+    border: 1px solid #d4d4d4;
+    height: 100%;
+  }
+}

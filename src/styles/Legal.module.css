@@ -1,0 +1,31 @@
+.info{
+    color: #6f9dff;
+    text-decoration: underline;
+}
+
+.legalContainer{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 70%;
+}
+
+
+
+.container{
+    flex-direction: column;
+    align-items: center;
+}
+
+.itemContainer{
+    margin: 10px;
+}
+
+.items{
+    margin: auto;
+    width: 70%;
+}
+
+.item{
+    font-weight: 700;
+}
