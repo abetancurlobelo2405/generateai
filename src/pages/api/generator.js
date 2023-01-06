@@ -27,7 +27,7 @@ export default async function generator(req, res) {
     switch (plan) {
       case 0:
         completion = await openai.createCompletion({
-          model: "text-davinci-003",
+          model: "text-curie-001",
           prompt: `${req.body.input}.`,
           max_tokens: 2000,
           temperature: 1,
