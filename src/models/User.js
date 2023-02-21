@@ -7,12 +7,11 @@ const UserSchema = new Schema({
   email: {
     type: String,
   },
-  posts: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Post",
-    },
-  ],
+  posts: [{ type: Object }],
+  plan: {
+    isSubscribed: { type: Boolean },
+    subscriptionDetails: { type: Object },
+  },
   isAnonymous: {
     type: Boolean,
   },

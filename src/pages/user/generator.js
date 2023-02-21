@@ -1,48 +1,73 @@
 import { getSession, useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { useContext, useEffect, useState } from "react";
-import PayPalComponent from "../../components/PaypalComponent";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../../styles/Generator.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Plans from "../../components/Plans";
-import PayPalContext, { PayPalProvider } from "../../context/PayPalContext";
 import { Configuration, OpenAIApi } from "openai";
-import { TypeAnimation } from "react-type-animation";
-import Loader from "../../components/Loader";
+import GeneratorForm from "../../components/Generator/GeneratorForm";
+import DisplayGeneratedText from "../../components/Generator/GeneratorDisplay";
+import GeneratorCover from "../../components/Generator/GeneratorCover";
+import GeneratedPreview from "../../components/Generator/GeneratedPreview";
 
 // AGREGAR PDF DOWNLOADER LUEGO!!!
-export default function Generator() {
+export default function GeneratorPage() {
+  const [input, setInput] = useState({});
   const [loader, setLoader] = useState(false);
-  const [error, setError] = useState(false);
-  const [textDone, setTextDone] = useState(false);
-  const [input, setInput] = useState("");
-  const [result, setResult] = useState("");
-  const [image, setImage] = useState([]);
+  const [currentGeneratedText, setCurrentGeneratedText] = useState("");
+  const [chapter, setChapter] = useState(1);
+  const [currentChapters, setCurrentChapters] = useState([]);
+  const [imageLoader, setImageLoader] = useState(false);
+  const [formDisabled, setFormDisabled] = useState(false);
+  const [coverPage, setCoverPage] = useState(false);
+  const [preview, setPreview] = useState(false);
+  const [characters, setCharacters] = useState({});
+  const router = useRouter();
 
-  const { ConfirmationHandler, ValueHandler, isPaid, value } =
-    useContext(PayPalContext);
+  // **** Removes the sessionStorage when user leaves ****
+  useEffect(() => {
+    router.events.on("routeChangeComplete", handleUnload);
+    return () => {
+      router.events.off("routeChangeComplete", handleUnload);
+    };
+  }, [router.pathname]);
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+    };
+  }, []);
+
+  const handleUnload = () => {
+    window.sessionStorage.removeItem("images");
+    window.sessionStorage.removeItem("SelectedImage");
+    window.sessionStorage.removeItem("userInput");
+    window.sessionStorage.removeItem("data");
+  };
+  // **** Removes the sessionStorage when user leaves ****
 
   const configuration = new Configuration({
     apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
   });
-  console.log(value);
+
   async function onSubmit(event) {
     event.preventDefault();
-    ConfirmationHandler(false);
-    ValueHandler("");
+    setFormDisabled(true);
     setLoader(true);
-    const response = await fetch("/api/generator", {
+    const response = await fetch("/api/generators/text-generator", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ input, value }),
+      body: JSON.stringify({ input }),
     });
     const data = await response.json();
-    setResult(data.result);
-    setImage(data.generatedImages);
+    setCurrentGeneratedText(data);
+    setCurrentChapters([
+      ...currentChapters,
+      { text: data, title: `chapter ${chapter}` },
+    ]);
     setLoader(false);
   }
 
@@ -61,156 +86,117 @@ export default function Generator() {
     onSubmit(event);
   }
 
+  const imageGenerator = async (index) => {
+    setImageLoader(true);
+    const response = await fetch("/api/generators/image-generator", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: currentGeneratedText }),
+    });
+    const generatedImages = await response.json();
+
+    const newArray = [...currentChapters];
+    newArray[index - 1] = {
+      ...newArray[index - 1],
+      images: generatedImages,
+    };
+    setCurrentChapters(newArray);
+    setImageLoader(false);
+  };
+
+  const nextChapter = async () => {
+    if (chapter + 1 > currentChapters.length) {
+      setLoader(true);
+      const response = await fetch("/api/generators/next-chapter-generator", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ currentGeneratedText }),
+      });
+      const data = await response.json();
+      setCurrentGeneratedText(data);
+      setCurrentChapters([
+        ...currentChapters,
+        { text: data, title: `chapter ${chapter + 1}` },
+      ]);
+      setChapter(chapter + 1);
+      setLoader(false);
+    }
+    setChapter(chapter + 1);
+  };
+
+  const previousChapter = async () => {
+    setChapter(chapter - 1);
+  };
+
+  const deleteGeneratedImages = (image) => {
+    const newArray = [...currentChapters];
+    newArray[chapter - 1] = {
+      ...newArray[chapter - 1],
+      images: currentChapters[chapter - 1].images.filter(
+        (generatedImg) => generatedImg.url !== image
+      ),
+    };
+    setCurrentChapters(newArray);
+    setImageLoader(false);
+  };
+
+  useEffect(() => {
+    console.log(currentChapters);
+  }, [currentChapters]);
+
+  const handleCoverPage = (state) => {
+    setCoverPage(state);
+  };
+
+  const handlePreviewPage = (state) => {
+    setPreview(state);
+  };
+
   return (
-    <div>
-      <Head>
-        <title>OpenAI Quickstart</title>
-      </Head>
-      {textDone && (
-        <div className={styles.advice}>
-          ¡SUCCESSFULLY GENERATED!, IF YOU ARE LOGGED IN CHECK YOUR PROFILE OR
-          CHECK THE PRINCIPAL PAGE
+    <>
+      {preview ? (
+        <GeneratedPreview
+          finalData={currentChapters}
+          input={input}
+          handlePreviewPage={handlePreviewPage}
+        />
+      ) : coverPage ? (
+        <>
+          <GeneratorCover
+            input={input}
+            handlePreviewPage={handlePreviewPage}
+            handleCoverPage={handleCoverPage}
+          />
+        </>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <GeneratorForm
+            setInput={setInput}
+            input={input}
+            onSubmit={onSubmit}
+            setCharacters={setCharacters}
+            characters={characters}
+            handleCoverPage={handleCoverPage}
+            handlePreviewPage={handlePreviewPage}
+            currentChapters={currentChapters}
+            formDisabled={formDisabled}
+            setFormDisabled={setFormDisabled}
+          ></GeneratorForm>
+          <DisplayGeneratedText
+            currentChapters={currentChapters}
+            setCurrentChapters={setCurrentChapters}
+            chapter={chapter}
+            deleteGeneratedImages={deleteGeneratedImages}
+            imageGenerator={imageGenerator}
+            nextChapter={nextChapter}
+            previousChapter={previousChapter}
+            imageLoader={imageLoader}
+            loader={loader}
+          ></DisplayGeneratedText>
         </div>
       )}
-      <div className={styles.maxContainer}>
-        <div className={styles.exampleContainer}>
-          <div className={styles.examples}>
-            <div className={styles.boxExample}>
-              <div className={styles.separator}>
-                ¡THE LIMIT IS YOUR IMAGINATION!
-              </div>
-              <h2 className={styles.titleExample}>SOME EXAMPLES</h2>
-              <div className={styles.item}>
-                &quot;Create a long story about a witch with hypertension
-                problems who is obsessed with soccer and does everything
-                possible to surpass her idol Lionel Messi using magic.&quot;
-              </div>
-              <div className={styles.item}>
-                &quot;Create a long story about a horse which wanted to dominate
-                the world, so he obtained &quot;the apple of discord&quot;&quot;
-              </div>
-              <div className={styles.item}>
-                &quot;Create a story about a talking bread who becomes a famous
-                chef and starts a chain of artisanal bakery cafes, but their
-                lack of hands makes it difficult for them to knead the
-                dough.&quot;
-              </div>
-              <div className={styles.item}>
-                &quot;Create a story about a yeti who becomes a world-famous
-                yoga instructor and travels the globe teaching the art of
-                mindfulness.&quot;
-              </div>
-              <div className={styles.item}>
-                &quot;Create a story about a group of talking animals who open a
-                theme park and become the most popular attraction in the
-                world.&quot;
-              </div>
-
-              <div className={styles.separator}>
-                you can also try develop a fictional continuation of a story
-              </div>
-              <div className={styles.premium}>
-                <div className={styles.alert}>
-                  THIS ONLY WORKS CORRECTLY WITH THE PREMIUM PLAN, WHICH USES A
-                  MORE ADVANCED ARTIFICIAL INTELLIGENCE.
-                </div>
-                <div className={styles.item}>
-                  &quot;Create a fictional continuation of Game Of
-                  Thrones.&quot;
-                </div>
-                <div className={styles.item}>
-                  &quot;Create a fictional end about Breaking Bad.&quot;
-                </div>
-                <div className={styles.item}>
-                  &quot;Create a new fictional character for Harry Potter&quot;
-                </div>
-                <div className={styles.item}>
-                  &quot;Create a fictional story about The Sopranos&quot;
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <main className={styles.main}>
-          <div className={styles.textGeneratedText}>
-            {error ? (
-              <div className={styles.textErrorContainer}>
-                <p className={styles.textError}>
-                  We have found inappropriate words in your text, please take a
-                  look at your input and try again.
-                </p>
-              </div>
-            ) : undefined}
-
-            <form onSubmit={moderationHandler}>
-              <div className={styles.inputContainer}>
-                <div className={styles.textAreaContainer}>
-                  <textarea
-                    type="text"
-                    name="input"
-                    placeholder="Create a history about..."
-                    maxLength={200}
-                    minLength={10}
-                    value={input}
-                    className={error ? styles.textAreaError : styles.textArea}
-                    onChange={(e) => setInput(e.target.value)}
-                  />
-                  <div className={styles.inputLength}>{input.length}/200</div>
-                </div>
-                <input
-                  type="submit"
-                  disabled={isPaid || value === 0 ? false : true}
-                  className={
-                    error ? styles.generateButtonError : styles.generateButton
-                  }
-                  value="¡GENERATE!"
-                />
-              </div>
-            </form>
-
-            <div className={styles.endResult}>
-              {result ? (
-                <TypeAnimation
-                  sequence={[
-                    1000,
-                    result,
-                    1000,
-                    () => {
-                      setTextDone(true);
-                    },
-                  ]}
-                  wrapper="div"
-                  cursor={false}
-                  speed={99}
-                  repeat={1}
-                  style={{ fontSize: "1rem" }}
-                />
-              ) : loader ? (
-                <div className={styles.loaderContainer}>
-                  <div>
-                    <Loader />
-                  </div>
-                  <span className={styles.generatingText}>Generating...</span>
-                </div>
-              ) : undefined}
-            </div>
-          </div>
-          <div className={styles.images}>
-            <div className={styles.generatedImageContainer}>
-              {textDone &&
-                image?.map((newImage, index) => (
-                  <div key={newImage.url}>
-                    <img
-                      className={styles.individualGeneratedImage}
-                      src={newImage.url}
-                    ></img>
-                  </div>
-                ))}
-            </div>
-          </div>
-        </main>
-        <div></div>
-      </div>
-    </div>
+    </>
   );
 }

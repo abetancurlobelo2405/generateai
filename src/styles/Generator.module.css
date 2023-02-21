@@ -355,6 +355,16 @@
   overflow-y: scroll;
 }
 
+.generationContainer{
+  margin: 10px;
+}
+
+
+
+
+
+
+
 .inputLength{
   position: absolute;
   color: #797979;

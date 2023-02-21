@@ -22,10 +22,9 @@ export default NextAuth({
       clientSecret: process.env.FACEBOOK_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-      allowDangerousEmailAccountLinking: true,
+    TwitterProvider({
+      clientId: process.env.TWITTER_CLIENT_ID,
+      clientSecret: process.env.TWITTER_CLIENT_SECRET,
     }),
   ],
   callbacks: {
@@ -37,6 +36,9 @@ export default NextAuth({
             username: user.name || user.username || user.email,
             email: user.email,
             isAnonymous: false,
+            plan: {
+              isSubscribed: false,
+            },
           });
         }
       } catch (error) {

@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 
 const Header = () => {
   const { data: session } = useSession();
+  const [userData, setUserData] = useState({});
   const [user, setUser] = useState({});
   const router = useRouter();
-
   useEffect(() => {
     if (session) {
       fetch("/api/auth/user", {
@@ -16,12 +16,12 @@ const Header = () => {
         headers: { "Content-Type": "application/json" },
       })
         .then((response) => response.json())
-        .then((data) =>
+        .then((data) => {
           window.localStorage.setItem(
             "LoggedInUser",
             JSON.stringify({ username: data?.username })
-          )
-        )
+          );
+        })
         .then(() => {
           const storedUsername = window.localStorage.getItem("LoggedInUser");
           setUser(JSON.parse(storedUsername));
@@ -32,6 +32,7 @@ const Header = () => {
   const handleSignOut = () => {
     signOut();
   };
+
   return (
     <>
       <div className={style.navbar}>
@@ -44,6 +45,7 @@ const Header = () => {
               <div className={style.signout} onClick={handleSignOut}>
                 LOGOUT
               </div>
+              <div></div>
               <Link href={"/user/profile"}>
                 <p>{user?.username}</p>
               </Link>
@@ -65,13 +67,7 @@ const Header = () => {
             ? style.disableButton
             : style.generatorButton
         }
-      >
-        <Link href={"/user/payment"}>
-          <button className={style.rainbowButton}>
-            ¡GENERATE YOU OWN HISTORY NOW!
-          </button>
-        </Link>
-      </div>
+      ></div>
     </>
   );
 };

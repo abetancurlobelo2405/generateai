@@ -47,6 +47,11 @@
   cursor: pointer;
 }
 
+.testHeader{
+  background-color: red;
+  height: 200px;
+}
+
 .generatorButton{
   display: flex;
   z-index: 9999999;
